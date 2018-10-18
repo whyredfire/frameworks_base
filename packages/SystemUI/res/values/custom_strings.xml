@@ -34,4 +34,10 @@
      <!-- Biometric Dialog - Use Face -->
     <string name="biometric_dialog_button_use_face">Use Face</string>
 
+    <!-- Heads Up QS Tile -->
+    <string name="quick_settings_heads_up_label">Peek notifications</string>
+    <string name="accessibility_quick_settings_heads_up_off">Peek notifications disabled.</string>
+    <string name="accessibility_quick_settings_heads_up_on">Peek notifications allowed.</string>
+    <string name="accessibility_quick_settings_heads_up_changed_off">Peek notifications turned off.</string>
+    <string name="accessibility_quick_settings_heads_up_changed_on">Peek notifications turned on.</string>
 </resources>
