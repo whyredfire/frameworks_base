@@ -82,9 +82,13 @@
     <!-- Device has OnePlus haptic motor -->
     <java-symbol type="bool" name="config_hasOnePlusHapticMotor" />
 
-  <!-- Power button fingerprint -->
-  <java-symbol type="bool" name="config_powerButtonFingerprint" />
+    <!-- Power button fingerprint -->
+    <java-symbol type="bool" name="config_powerButtonFingerprint" />
+   
     <!-- Enable face auth only when swiping security view -->
     <java-symbol type="bool" name="config_faceAuthOnlyOnSecurityView" />
+
+    <!-- Smart charging battery percentage -->
+    <java-symbol type="integer" name="config_smartChargingBatteryLevel" />
 
 </resources>
