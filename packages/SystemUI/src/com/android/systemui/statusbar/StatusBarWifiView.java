@@ -51,9 +51,7 @@ public class StatusBarWifiView extends BaseStatusBarWifiView implements DarkRece
     private LinearLayout mWifiGroup;
     private ImageView mWifiIcon;
     private ImageView mWifiStandard;
-    private ImageView mIn;
-    private ImageView mOut;
-    private View mInoutContainer;
+    private ImageView mInout;
     private View mSignalSpacer;
     private View mAirplaneSpacer;
     private WifiIconState mState;
@@ -94,8 +92,7 @@ public class StatusBarWifiView extends BaseStatusBarWifiView implements DarkRece
         ColorStateList list = ColorStateList.valueOf(color);
         mWifiIcon.setImageTintList(list);
         mWifiStandard.setImageTintList(list);
-        mIn.setImageTintList(list);
-        mOut.setImageTintList(list);
+        mInout.setImageTintList(list);
         mDotView.setDecorColor(color);
     }
 
@@ -159,11 +156,9 @@ public class StatusBarWifiView extends BaseStatusBarWifiView implements DarkRece
         mWifiGroup = findViewById(R.id.wifi_group);
         mWifiIcon = findViewById(R.id.wifi_signal);
         mWifiStandard = findViewById(R.id.wifi_standard);
-        mIn = findViewById(R.id.wifi_in);
-        mOut = findViewById(R.id.wifi_out);
+        mInout = findViewById(R.id.wifi_inout);
         mSignalSpacer = findViewById(R.id.wifi_signal_spacer);
         mAirplaneSpacer = findViewById(R.id.wifi_airplane_spacer);
-        mInoutContainer = findViewById(R.id.inout_container);
 
         initDotView();
     }
@@ -209,11 +204,7 @@ public class StatusBarWifiView extends BaseStatusBarWifiView implements DarkRece
         if (mState.resId != state.resId && state.resId >= 0) {
             mWifiIcon.setImageDrawable(mContext.getDrawable(state.resId));
         }
-
-        mIn.setVisibility(state.activityIn ? View.VISIBLE : View.GONE);
-        mOut.setVisibility(state.activityOut ? View.VISIBLE : View.GONE);
-        mInoutContainer.setVisibility(
-                (state.activityIn || state.activityOut) ? View.VISIBLE : View.GONE);
+        setInout(state);
         mAirplaneSpacer.setVisibility(state.airplaneSpacerVisible ? View.VISIBLE : View.GONE);
         mSignalSpacer.setVisibility(state.signalSpacerVisible ? View.VISIBLE : View.GONE);
 
@@ -240,11 +231,7 @@ public class StatusBarWifiView extends BaseStatusBarWifiView implements DarkRece
         if (mState.resId >= 0) {
             mWifiIcon.setImageDrawable(mContext.getDrawable(mState.resId));
         }
-
-        mIn.setVisibility(mState.activityIn ? View.VISIBLE : View.GONE);
-        mOut.setVisibility(mState.activityOut ? View.VISIBLE : View.GONE);
-        mInoutContainer.setVisibility(
-                (mState.activityIn || mState.activityOut) ? View.VISIBLE : View.GONE);
+        setInout(mState);
         mAirplaneSpacer.setVisibility(mState.airplaneSpacerVisible ? View.VISIBLE : View.GONE);
         mSignalSpacer.setVisibility(mState.signalSpacerVisible ? View.VISIBLE : View.GONE);
         setVisibility(mState.visible ? View.VISIBLE : View.GONE);
@@ -261,6 +248,24 @@ public class StatusBarWifiView extends BaseStatusBarWifiView implements DarkRece
         }
     }
 
+    private void setInout(WifiIconState state) {
+        if (!state.activityEnabled) {
+            mInout.setVisibility(View.GONE);
+            return;
+        }
+        mInout.setVisibility(View.VISIBLE);
+
+        int resId = R.drawable.stat_sys_wifi_no_inout;
+        if (state.activityIn && state.activityOut) {
+            resId = R.drawable.stat_sys_wifi_inout;
+        } else if (state.activityIn) {
+            resId = R.drawable.stat_sys_wifi_in;
+        } else if (state.activityOut) {
+            resId = R.drawable.stat_sys_wifi_out;
+        }
+        mInout.setImageResource(resId);
+    }
+
     private int getWifiStandard(WifiIconState state) {
         WifiInfo wifiInfo = mWifiManager.getConnectionInfo();
         return state.visible ? wifiInfo.getWifiStandard() : -1;
@@ -272,8 +277,7 @@ public class StatusBarWifiView extends BaseStatusBarWifiView implements DarkRece
         ColorStateList color = ColorStateList.valueOf(areaTint);
         mWifiIcon.setImageTintList(color);
         mWifiStandard.setImageTintList(color);
-        mIn.setImageTintList(color);
-        mOut.setImageTintList(color);
+        mInout.setImageTintList(color);
         mDotView.setDecorColor(areaTint);
         mDotView.setIconColor(areaTint, false);
     }
@@ -294,10 +298,7 @@ public class StatusBarWifiView extends BaseStatusBarWifiView implements DarkRece
             }
         }
 
-        mIn.setVisibility(mState.activityIn ? View.VISIBLE : View.GONE);
-        mOut.setVisibility(mState.activityOut ? View.VISIBLE : View.GONE);
-        mInoutContainer.setVisibility(
-                (mState.activityIn || mState.activityOut) ? View.VISIBLE : View.GONE);
+        setInout(mState);
         mAirplaneSpacer.setVisibility(mState.airplaneSpacerVisible ? View.VISIBLE : View.GONE);
         mSignalSpacer.setVisibility(mState.signalSpacerVisible ? View.VISIBLE : View.GONE);
         setVisibility(mState.visible ? View.VISIBLE : View.GONE);

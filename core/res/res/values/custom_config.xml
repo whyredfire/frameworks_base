@@ -250,7 +250,4 @@
     <!-- Whether to spoof device as pixel for certain google apps, to
          unlock pixel-exclusive features -->
     <bool name="config_spoofGoogleApps">false</bool>
-
-    <!-- Whether to allow network traffic on statusbar -->
-    <bool name="config_supportsNetworkTrafficOnStatusBar">true</bool>
 </resources>
